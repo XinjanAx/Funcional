@@ -20,6 +20,7 @@ public sealed interface Lista<T> permits Nil, Cons {
         }
         return ret;
     }
+    
 //Nulidad?
     default boolean isEmpty() {
         return this == NIL;
@@ -32,10 +33,12 @@ public sealed interface Lista<T> permits Nil, Cons {
                 Lista.of(elem):
                 Lista.of(head(), tail().append(elem));
     }
+    
 //-------------    
     default Lista<T> prepend(T elem){
         return Lista.of(elem,this);
     }
+    
 //-------------
     default Lista<T> remove(T elem) {
     	return !isEmpty()? 
@@ -52,128 +55,95 @@ public sealed interface Lista<T> permits Nil, Cons {
 //    		}
 //    	}else return Lista.of(Lista.NIL);
 //    }
+    
 //-------------    
     default Lista<T> drop(int n){
-    	if(!isEmpty()) {
-    		if(n!=1) return tail().drop(n-1);
-    		else return tail();
-    		
-    	} else return this;
+    	return !isEmpty()?n!=1?tail().drop(n-1):tail():this;
     }
+//    	if(!isEmpty()) {
+//    		if(n!=1) return tail().drop(n-1);
+//    		else return tail();   		
+//    	} else return this;
+    
 //-------------    
     default Lista<T> dropWhile(Predicate <T> cond){
-    	if(!isEmpty()) {
-    		if(cond.test(head())) return tail();
-    		else return tail().dropWhile(cond);   		
-    	}else return this;			
+    	return !isEmpty()?cond.test(head())?tail():tail().dropWhile(cond):this;
     }
+//    	if(!isEmpty()) {
+//    		if(cond.test(head())) return tail();
+//    		else return tail().dropWhile(cond);   		
+//    	}else return this;			
+    
+//-------------
     default Lista<T> take(Integer n){
-
         return isEmpty()||n==0?NIL:Lista.of(head(),tail().take(n-1));
-
+    }
         //return isEmpty()?NIL:n!=0?Lista.of(head(),tail().take(n-1)):NIL;
 //        if(isEmpty()) {
-
 //            return NIL;
-
 //        }else {
-
 //            if(n!=0) {
-
 //                return Lista.of(head(),tail().take(n-1));            
-
 //            }else {
-
 //                return NIL;
-
 //            }
-
 //        }         
 
+//----------------------
+
+    default Lista<T>takeWhile(Predicate<T>p){
+    	return !isEmpty()?!p.test(head())?Lista.of(head(),tail().takeWhile(p)):Lista.of(head()):NIL;
     }
 
-    
-
-//--------TAKE WHILE----------------
-
-    default Lista<T>takewhile(Predicate<T>p){
-
-                
-
-        if(isEmpty()) {
-
-           return NIL;
-
-       }else {
-
-           if(p.test(head())) {
-
-               return Lista.of(head(),tail().takewhile(p));
-
-           }else {
-
-               return NIL;
-
-           }
-
-       }
-
-        
-
-    }
-
-    
-
-    //
-
+//----------------------
     default Lista<T> concat(Lista<T>other){
-
-        if(isEmpty()) {
-
-            return other;
-
-        }else {
-
-            return Lista.of(head(),tail().concat(other));
-
-        }
-
+    	return isEmpty()?other:Lista.of(head(),tail().concat(other));
     }
+//    if(isEmpty()) return other;
+//    else return Lista.of(head(),tail().concat(other));
 
-    
+//------------------------------
 
-    //invertir
-
-    default Lista<T> invertir() {
+    default Lista<T> invertirIter() {
 
         Lista<T> tmp = this;
-
-        Lista<T> retList = NIL;
+        Lista<T> retList=NIL;
 
         while(!tmp.isEmpty()) {
-
             retList = Lista.of(tmp.head(), retList);
-
             tmp = tmp.tail();
-
         }
-
         return retList;
-
     }
-
-    public static Integer sum(Lista<Integer>l) {
-
-       if(!l.tail().isEmpty()) {
-
-           return l.head() + sum(l.tail());
-
-       }else return l.head();        
-
+    
+//------------------------------
+    default Lista<T> invertir() {
+    	if(!tail().isEmpty()) {
+    		
+    		return Lista.of(tail().invertir().head());
+    	}else {
+    		return this;
+    	}
+    }
+//----------Funciones----------------------
+    
+    public static Integer sumatoria(Lista<Integer>l) {
+    	return !l.tail().isEmpty()?l.head()+sumatoria(l.tail()):l.head();
    }
+//    if(!l.tail().isEmpty()) {
+//        return l.head() + sum(l.tail());
+//    }else return l.head();
     
+//--------------
+    public static Integer multip(Lista<Integer>l) {
+    	return !l.tail().isEmpty()?l.head()*multip(l.tail()):l.head();
+    }
     
-//-----------------------------------------------------------------------    
+//--------------
+	static Integer maximo(Lista<Integer>l) {
+		return !l.tail().isEmpty()? Math.max(l.head(),maximo(l.tail())):l.head();
+	}
+//----------------------------------Fin----------------------------------------------    
 }
 final class Nil<T> implements Lista<T> {
     @Override
