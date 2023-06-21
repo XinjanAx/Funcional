@@ -118,13 +118,13 @@ public sealed interface Lista<T> permits Nil, Cons {
     
 //------------------------------
     default Lista<T> invertir() {
-    	if(!tail().isEmpty()) {
-    		
-    		return Lista.of(tail().invertir().head());
-    	}else {
-    		return this;
-    	}
+    	return !isEmpty()?tail().invertir().append(head()):NIL;
     }
+//	if(isEmpty()) {
+//	return NIL;
+//} else {
+//	return tail().invertir().append(head());
+//}
 //----------Funciones----------------------
     
     public static Integer sumatoria(Lista<Integer>l) {
@@ -142,6 +142,12 @@ public sealed interface Lista<T> permits Nil, Cons {
 //--------------
 	static Integer maximo(Lista<Integer>l) {
 		return !l.tail().isEmpty()? Math.max(l.head(),maximo(l.tail())):l.head();
+	}
+//-------------
+	default Lista<T> ordenar(){
+		
+		
+		return null;
 	}
 //----------------------------------Fin----------------------------------------------    
 }
