@@ -1,6 +1,7 @@
 package com.funcional.lista;
 
 import java.util.function.Predicate;
+import com.funcional.deber1.BinTree;
 
 public sealed interface Lista<T> permits Nil, Cons {
 	
@@ -58,7 +59,10 @@ public sealed interface Lista<T> permits Nil, Cons {
     
 //-------------    
     default Lista<T> drop(int n){
-    	return !isEmpty()?n!=1?tail().drop(n-1):tail():this;
+    	return !isEmpty()?
+    			n!=1?
+    			tail().drop(n-1):tail()
+    			:this;
     }
 //    	if(!isEmpty()) {
 //    		if(n!=1) return tail().drop(n-1);
@@ -76,7 +80,9 @@ public sealed interface Lista<T> permits Nil, Cons {
     
 //-------------
     default Lista<T> take(Integer n){
-        return isEmpty()||n==0?NIL:Lista.of(head(),tail().take(n-1));
+        return isEmpty()||n==0?
+        		NIL
+        		:Lista.of(head(),tail().take(n-1));
     }
         //return isEmpty()?NIL:n!=0?Lista.of(head(),tail().take(n-1)):NIL;
 //        if(isEmpty()) {
@@ -144,11 +150,37 @@ public sealed interface Lista<T> permits Nil, Cons {
 		return !l.tail().isEmpty()? Math.max(l.head(),maximo(l.tail())):l.head();
 	}
 //-------------
-	default Lista<T> ordenar(){
-		
-		
+	default Lista<T> ordenar(){	
 		return null;
 	}
+//-------------
+	default Lista<T> contar(){
+		return null;
+		
+	}
+//--------------BinTree----------------
+
+	default BinTree<T> buildTree() {
+        if (!isEmpty()) {
+        	T h = head();
+            int k = tail().isEmpty() ? 0: (tail().size() == 1) ? 1 : tail().size() / 2;
+            Lista<T> leftList = tail().take(k);
+            Lista<T> rightList = tail().drop(k);
+            return BinTree.of(h, leftList.buildTree(), rightList.buildTree());
+            
+        } else {
+        	return BinTree.Leaf;
+        }
+    }
+	
+
+    default int size() {
+        return isEmpty()
+                ? 0
+                : 1 + tail().size();
+    }
+	
+	
 //----------------------------------Fin----------------------------------------------    
 }
 final class Nil<T> implements Lista<T> {
@@ -165,5 +197,6 @@ final class Nil<T> implements Lista<T> {
 	@Override
 	public String toString() {
 		return "NIL";
-	} 
+	}
+	
 }

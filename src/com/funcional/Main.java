@@ -1,6 +1,5 @@
 package com.funcional;
 
-import java.util.List;
 import java.util.function.Function;
 
 import com.funcional.lista.*;
@@ -80,12 +79,9 @@ public class Main {
         //recibe un texto y devuelve una tupla de la palabra y 
         //cuantas veces se repite la palabra
         
-        
-        
-        
-        
-        
-        
-        
+
+    	    	
     }
+    
+    
 }
