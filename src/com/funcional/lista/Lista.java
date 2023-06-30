@@ -1,5 +1,8 @@
 package com.funcional.lista;
 
+import java.lang.StackWalker.Option;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import com.funcional.deber1.BinTree;
 
@@ -121,6 +124,12 @@ public sealed interface Lista<T> permits Nil, Cons {
         }
         return retList;
     }
+    default void forEach(Consumer<T> fn) {
+        if(!isEmpty()) {
+            fn.accept(head());
+            tail().forEach(fn);
+        }
+    }
     
 //------------------------------
     default Lista<T> invertir() {
@@ -153,11 +162,29 @@ public sealed interface Lista<T> permits Nil, Cons {
 	default Lista<T> ordenar(){	
 		return null;
 	}
-//-------------
-	default Lista<T> contar(){
-		return null;
+//------------- Leer texto largo----------------------
+	
+	
+	default Lista<T> reemplace(T elem,T newElem){
+		
+		return !isEmpty()?
+				head().equals(elem)?
+						Lista.of(newElem,tail())
+						:Lista.of(head(),tail().reemplace(elem, newElem))
+				:NIL;
 		
 	}
+	
+	default Optional<T> contain(T elem) {
+
+        return isEmpty()?
+                Optional.empty():
+                    head().equals(elem)?
+                            Optional.of(head()):
+                                tail().contain(elem);
+
+    }
+	
 //--------------BinTree----------------
 
 	default BinTree<T> buildTree() {
