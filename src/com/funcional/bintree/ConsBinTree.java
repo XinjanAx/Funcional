@@ -1,4 +1,4 @@
-package com.funcional.deber2.profe.bintree;
+package com.funcional.bintree;
 
 public final class ConsBinTree<T> implements BinTree<T> {
 	

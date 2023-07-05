@@ -1,6 +1,6 @@
 package com.funcional.deber2.profe;
 
-import com.funcional.deber2.profe.bintree.BinTree;
+import com.funcional.bintree.BinTree;
 import com.funcional.lista.Lista;
 
 public class MainProf {
@@ -14,6 +14,7 @@ public class MainProf {
 //		System.out.println(n1);
 		
 		Lista<Integer> ls = Lista.of(1, 2, 3, 4, 5, 6, 7, 8);
+		
 		System.out.println("Lista:"+ls);
 		System.out.println("\nTree Chevere =D");
 		

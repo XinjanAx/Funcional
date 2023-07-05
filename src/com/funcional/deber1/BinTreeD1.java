@@ -1,20 +1,20 @@
 package com.funcional.deber1;
 
 
-public class BinTree <T> {
+public class BinTreeD1 <T> {
 	T value;
-	BinTree L;
-	BinTree R;
+	BinTreeD1 L;
+	BinTreeD1 R;
 	
-	public static final BinTree Leaf = new LeafNode();
+	public static final BinTreeD1 Leaf = new LeafNode();
 	
 	//-----------contructores-----
-	public BinTree(T value) {
+	public BinTreeD1(T value) {
 		super();
 		this.value = value;
-		this.L = BinTree.Leaf;
+		this.L = BinTreeD1.Leaf;
 	}
-    public BinTree(T value, BinTree l, BinTree r) {
+    public BinTreeD1(T value, BinTreeD1 l, BinTreeD1 r) {
 		super();
 		this.value = value;
 		this.L = l;
@@ -24,8 +24,8 @@ public class BinTree <T> {
 	public Integer size() {
 		return isEmpty()?0:1+L.size()+R.size();
 	}
-    public static <T> BinTree<T> of(T value, BinTree<T> left, BinTree<T> right) {
-        return new BinTree<>(value, left, right);
+    public static <T> BinTreeD1<T> of(T value, BinTreeD1<T> left, BinTreeD1<T> right) {
+        return new BinTreeD1<>(value, left, right);
     }
     public boolean isEmpty() {
     	return !(this==Leaf)?true:false;
@@ -36,7 +36,7 @@ public class BinTree <T> {
 }
 
 
-class LeafNode<T> extends BinTree<T>{
+class LeafNode<T> extends BinTreeD1<T>{
 
 	public LeafNode() {
 		super(null);

@@ -1,10 +1,11 @@
-package com.funcional.deber2.profe.bintree;
+package com.funcional.bintree;
+
+import java.util.function.Consumer;
 
 import com.funcional.lista.Lista;
 
 public sealed interface BinTree<T> permits ConsBinTree,LeafBinTree {
-	
-	
+		
 	T value();
 	BinTree<T> left();
 	BinTree<T> right();
@@ -30,6 +31,14 @@ public sealed interface BinTree<T> permits ConsBinTree,LeafBinTree {
 		}	
 	}
 	
+    default <T> void forEach(Consumer<T> fn) {
+    	if(!(this==BinTree.Leaf)) {
+    		fn.accept((T) value());
+    		this.left().forEach(fn);
+    		this.right().forEach(fn);
+    	}
+	
+    }
 }
 
 final class LeafBinTree<T> implements BinTree<T>{
@@ -65,10 +74,5 @@ final class LeafBinTree<T> implements BinTree<T>{
 	public Integer size() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-
-
-
-	
+	}	
 }

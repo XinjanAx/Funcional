@@ -4,7 +4,7 @@ import java.lang.StackWalker.Option;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import com.funcional.deber1.BinTree;
+import com.funcional.deber1.BinTreeD1;
 
 public sealed interface Lista<T> permits Nil, Cons {
 	
@@ -187,16 +187,16 @@ public sealed interface Lista<T> permits Nil, Cons {
 	
 //--------------BinTree----------------
 
-	default BinTree<T> buildTree() {
+	default BinTreeD1<T> buildTree() {
         if (!isEmpty()) {
         	T h = head();
             int k = tail().isEmpty() ? 0: (tail().size() == 1) ? 1 : tail().size() / 2;
             Lista<T> leftList = tail().take(k);
             Lista<T> rightList = tail().drop(k);
-            return BinTree.of(h, leftList.buildTree(), rightList.buildTree());
+            return BinTreeD1.of(h, leftList.buildTree(), rightList.buildTree());
             
         } else {
-        	return BinTree.Leaf;
+        	return BinTreeD1.Leaf;
         }
     }
 	
