@@ -39,6 +39,9 @@ public sealed interface BinTree<T> permits ConsBinTree,LeafBinTree {
     	}
 	
     }
+    default <T> boolean isLeaf() {
+    	return this==BinTree.Leaf?true:false;
+    }
 }
 
 final class LeafBinTree<T> implements BinTree<T>{

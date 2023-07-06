@@ -40,7 +40,7 @@ public final class ConsBinTree<T> implements BinTree<T> {
 
 	@Override
 	public String toString() {
-		return String.format("copa:%s\nRamaL:%s / RamaR:%s\n",value,left,right);
+		return String.format("BinTree(%s, %s, %s)",value(), left(), right());
 	}
 
 	@Override
