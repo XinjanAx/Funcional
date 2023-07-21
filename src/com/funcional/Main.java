@@ -38,7 +38,7 @@ public class Main {
         System.out.println("\n Lista 1:"+l1.toString());
         System.out.println(" Lista 2:"+l2+"\n");
         
-        System.out.println("Invertir(I):" + l2.invertirIter());
+        System.out.println("Invertir(I):" + l2.invertirRec());
         System.out.println("Invertir(R):" + l2.invertir());
         
         System.out.println("\nSuma de elementos de la Lista:\n"+l1+" = "+Lista.sumatoria(l1));

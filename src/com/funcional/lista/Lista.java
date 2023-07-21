@@ -3,6 +3,7 @@ package com.funcional.lista;
 import java.lang.StackWalker.Option;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import com.funcional.deber1.BinTreeD1;
 
@@ -113,7 +114,7 @@ public sealed interface Lista<T> permits Nil, Cons {
 
 //------------------------------
 
-    default Lista<T> invertirIter() {
+    default Lista<T> invertir() {
 
         Lista<T> tmp = this;
         Lista<T> retList=NIL;
@@ -124,6 +125,7 @@ public sealed interface Lista<T> permits Nil, Cons {
         }
         return retList;
     }
+    
     default void forEach(Consumer<T> fn) {
         if(!isEmpty()) {
             fn.accept(head());
@@ -132,8 +134,8 @@ public sealed interface Lista<T> permits Nil, Cons {
     }
     
 //------------------------------
-    default Lista<T> invertir() {
-    	return !isEmpty()?tail().invertir().append(head()):NIL;
+    default Lista<T> invertirRec() {
+    	return !isEmpty()?tail().invertirRec().append(head()):NIL;
     }
 //	if(isEmpty()) {
 //	return NIL;
@@ -205,6 +207,29 @@ public sealed interface Lista<T> permits Nil, Cons {
         return isEmpty()
                 ? 0
                 : 1 + tail().size();
+    }
+    //-----------------------Mapping------------
+    
+    default <U> Lista <U> map (Function<T,U> fn){
+    	return this.isEmpty()?
+    			Lista.NIL
+    			:Lista.of(fn.apply(head()),tail().map(fn));
+    			//:tail().map(fn).prepent(fn.apply(head());
+    }
+    default <U> Lista <U> mapIt (Function<T,U> fn){
+    	var tmp = this;
+    	Lista<U> retTmp = Lista.NIL;
+    	
+    	while(!tmp.isEmpty()) {
+    		T elem = tmp.head();
+    		U newE = fn.apply(elem);
+    		
+    		//retTmp = retTmp.prepend(newE);
+    		retTmp=Lista.of(newE,retTmp);
+    		
+    		tmp=tmp.tail();
+    	}
+    	return retTmp.invertir();
     }
 	
 	
