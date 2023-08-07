@@ -26,7 +26,7 @@ public sealed interface Lista<T> permits Nil, Cons {
         return ret;
     }
     
-//Nulidad?
+//Nulidad
     default boolean isEmpty() {
         return this == NIL;
     }
@@ -135,37 +135,28 @@ public sealed interface Lista<T> permits Nil, Cons {
     
 //------------------------------
     default Lista<T> invertirRec() {
-    	return !isEmpty()?tail().invertirRec().append(head()):NIL;
+    	// operacion de fold ordenando los parametros y la funcion
+    	return this.foldLeft(Lista.NIL, list->t->list.prepend(t));
     }
-//	if(isEmpty()) {
-//	return NIL;
-//} else {
-//	return tail().invertir().append(head());
-//}
+
 //----------Funciones----------------------
     
     public static Integer sumatoria(Lista<Integer>l) {
     	return !l.tail().isEmpty()?l.head()+sumatoria(l.tail()):l.head();
    }
-//    if(!l.tail().isEmpty()) {
-//        return l.head() + sum(l.tail());
-//    }else return l.head();
-    
-//--------------
+
     public static Integer multip(Lista<Integer>l) {
     	return !l.tail().isEmpty()?l.head()*multip(l.tail()):l.head();
     }
-    
-//--------------
+
 	static Integer maximo(Lista<Integer>l) {
 		return !l.tail().isEmpty()? Math.max(l.head(),maximo(l.tail())):l.head();
 	}
-//-------------
+
 	default Lista<T> ordenar(){	
 		return null;
 	}
 //------------- Leer texto largo----------------------
-	
 	
 	default Lista<T> reemplace(T elem,T newElem){
 		
@@ -204,6 +195,7 @@ public sealed interface Lista<T> permits Nil, Cons {
 	
 
     default int size() {
+    	// return this.foldLeft(0,u->t->1+u);
         return isEmpty()
                 ? 0
                 : 1 + tail().size();
@@ -211,10 +203,9 @@ public sealed interface Lista<T> permits Nil, Cons {
     //-----------------------Mapping------------
     
     default <U> Lista <U> map (Function<T,U> fn){
-    	return this.isEmpty()?
-    			Lista.NIL
-    			:Lista.of(fn.apply(head()),tail().map(fn));
+    	//return this.isEmpty()?Lista.NIL  			:Lista.of(fn.apply(head()),tail().map(fn));
     			//:tail().map(fn).prepent(fn.apply(head());
+    	return foldLeft(Lista.NIL, lista -> x -> lista.append(fn.apply(x)));
     }
     default <U> Lista <U> mapIt (Function<T,U> fn){
     	var tmp = this;
@@ -232,6 +223,55 @@ public sealed interface Lista<T> permits Nil, Cons {
     	return retTmp.invertir();
     }
 	
+    //preferible hacer iterativo???
+    default T reduce (T iden, Function<T,Function<T,T>> fn){
+    	T acum = iden;
+    	var tmp = this;
+    	while(!tmp.isEmpty()) {
+    		acum = fn.apply(tmp.head()).apply(acum);
+    		tmp=tmp.tail();
+    	}
+    	return acum;
+    }
+    //coorecursivo
+    default<U> U foldLeft(U iden, Function<U, Function<T, U>> fn) {
+        U acum = iden;
+        var tmp = this;
+        while(!tmp.isEmpty()) {
+            acum = fn.apply(acum).apply(tmp.head());
+            tmp = tmp.tail();
+        }
+        return acum;
+    }
+    //recursivo
+    default<U> U foldRight(U iden, Function<T, Function<U, U>> fn) {
+    	return this.isEmpty()? 
+    			iden
+    			:fn.apply(head())
+    				.apply(tail().foldRight(iden, fn));
+    }
+    //--------------------------RANGO
+    static Lista<Integer> rangeRecInt(Integer star, Integer end){
+    	return star<end
+    			?Lista.of(star,rangeRecInt(star+1,end))
+    			:Lista.NIL;
+    }
+    static <T> Lista<T> unfold(T star, T end,Function<T, T> fn ,Predicate<T> ctrl){
+    	return ctrl.test(star)
+    			?Lista.of(star,unfold(fn.apply(star),end,fn,ctrl))
+    			:Lista.NIL;
+    }
+    static <T> Lista<T> rangeWhileG(T star, Function<T, T>fn,Predicate<T> ctrl){
+    	Lista<T> tmp = Lista.of(star);
+    	T sus = star;
+    	while(ctrl.test(sus)) {
+    		sus = fn.apply(sus);
+    		tmp = tmp.prepend(sus);
+    	}
+    	return tmp.invertir();
+    }
+    
+    
 	
 //----------------------------------Fin----------------------------------------------    
 }
