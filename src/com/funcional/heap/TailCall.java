@@ -1,4 +1,4 @@
-package com.funcional.recursion;
+package com.funcional.heap;
 
 import java.util.function.Supplier;
 

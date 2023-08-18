@@ -1,6 +1,5 @@
 package com.funcional.lista;
 
-import java.lang.StackWalker.Option;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -164,8 +163,7 @@ public sealed interface Lista<T> permits Nil, Cons {
 				head().equals(elem)?
 						Lista.of(newElem,tail())
 						:Lista.of(head(),tail().reemplace(elem, newElem))
-				:NIL;
-		
+				:NIL;		
 	}
 	
 	default Optional<T> contain(T elem) {

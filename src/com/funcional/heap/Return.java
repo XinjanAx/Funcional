@@ -1,4 +1,4 @@
-package com.funcional.recursion;
+package com.funcional.heap;
 
 //nodo final
 //aqui tienes el valor calculado y se retorna
