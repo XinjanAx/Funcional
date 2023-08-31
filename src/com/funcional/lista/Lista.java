@@ -74,7 +74,11 @@ public sealed interface Lista<T> permits Nil, Cons {
     
 //-------------    
     default Lista<T> dropWhile(Predicate <T> cond){
-    	return !isEmpty()?cond.test(head())?tail():tail().dropWhile(cond):this;
+    	return isEmpty()?
+    			this
+    			:cond.test(head())?
+    					tail()
+    					:tail().dropWhile(cond);
     }
 //    	if(!isEmpty()) {
 //    		if(cond.test(head())) return tail();
@@ -198,7 +202,7 @@ public sealed interface Lista<T> permits Nil, Cons {
                 ? 0
                 : 1 + tail().size();
     }
-    //-----------------------Mapping------------
+ //-----------------------Mapping/Fold----------------------------
     
     default <U> Lista <U> map (Function<T,U> fn){
     	//return this.isEmpty()?Lista.NIL  			:Lista.of(fn.apply(head()),tail().map(fn));
@@ -241,13 +245,14 @@ public sealed interface Lista<T> permits Nil, Cons {
         }
         return acum;
     }
-    //recursivo
+   //recursivo
     default<U> U foldRight(U iden, Function<T, Function<U, U>> fn) {
     	return this.isEmpty()? 
     			iden
     			:fn.apply(head())
     				.apply(tail().foldRight(iden, fn));
     }
+    
     //--------------------------RANGO
     static Lista<Integer> rangeRecInt(Integer star, Integer end){
     	return star<end

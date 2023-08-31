@@ -52,7 +52,9 @@ public class MainTextoD1 {
                     ret = ret.prepend(p);
                 } else {
                     //encontro
-                    ret = ret.reemplace(tmp.get(), new Tupla(s, tmp.get().y() + 1));
+                	int u =(int) tmp.get().y();
+                	int t = u + 1;
+                    ret = ret.reemplace(tmp.get(), new Tupla(s,t));
                 }
             }
             return ret;
