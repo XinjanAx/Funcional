@@ -67,13 +67,31 @@ public class Examen_21_22progrecion {
 		}
 	
 	}
+	
+//----------------------------------4-------------------------------------
 	private static <T> Lista<T> concat(Lista<T> l1, Lista<T> l2) {
 		if(l1.isEmpty())return l2;
 		else return Lista.of(l1.head(),concat(l1.tail(), l2));
 	}
+//----------------------------------5-------------------------------------	
+	private static Integer min(Lista<Integer> ls) {
+		//TxU->U
+		return ls.foldRight(ls.head(), elem->min->{
+			if(elem<min)return elem;
+			else return min;
+		});
+	}
+	static Lista<Integer> ordenar(Lista<Integer> ls){
+		return ordenarAux(ls);
+	}
 	
-	
-	
+	private static Lista<Integer> ordenarAux(Lista<Integer> ls) {
+				//UxT->U
+		return ls.foldLeft(Lista.NIL, u->t->{
+			System.out.println(u+" "+t);
+			return u;
+		});
+	}
 	public static void main(String[] args) {
 		System.out.println("1-----------------");
 		var l1_a = progreRecur(2, 5, 3);
@@ -98,7 +116,11 @@ public class Examen_21_22progrecion {
 		System.out.println("Lista2:"+l1_b);
 		var concat= concat(l1_a,l1_b);
 		System.out.println("Concat:"+concat);
-		
+
+		System.out.println("\n5-----------------");
+		var l5 = Lista.of(12,10,16,11,9,7);
+		System.out.println("Lista:"+l5);
+		var ordenado = ordenar(l5);
 		
 	}
 

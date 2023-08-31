@@ -39,11 +39,11 @@ public class Prueba22_23ezFoldsMalos {
 	}
 //3	
 	static Tupla<Lista<Integer>> gen3TuplaL(Lista<Integer>ls){
-		var tupla = genTuplaLAux(ls,new Tupla<>(Lista.NIL,Lista.NIL));
+		var tupla = genTuplaLAux(ls);
 		return new Tupla<>(tupla.x.invertir(),tupla.y.invertir());
 	}
 
-	private static Tupla<Lista<Integer>> genTuplaLAux(Lista<Integer> ls, Tupla<Lista<Integer>> acc) {
+	private static Tupla<Lista<Integer>> genTuplaLAux(Lista<Integer> ls) {
 					//UxT->U
 		return ls.foldLeft(new Tupla<>(Lista.NIL,Lista.NIL), t->elem->{
 			Integer x,y;
